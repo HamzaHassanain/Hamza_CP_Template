@@ -11,17 +11,14 @@ using namespace std;
 #define all(x) x.begin(), x.end()
 #define sz(x) (int)x.size()
 
-ll mex(vector<ll> a)
+ll bst(vector<int> &arr, vector<int> &brr, ll i, int a, int b)
 {
-    sort(all(a));
-    a.erase(unique(all(a)), a.end());
-    for (ll i = 0; i < a.size(); i++)
-    {
-        if (a[i] != i)
-            return i;
-    }
-    return a.size();
+    if (i == arr.size())
+        return min(a, b);
+
+    return max(bst(arr, brr, i + 1, a + arr[i], b), bst(arr, brr, i + 1, a, b + brr[i]));
 }
+
 class Sure : public Solution
 {
 public:
@@ -29,48 +26,34 @@ public:
     {
         ll n;
         fin >> n;
-        vector<ll> a(n);
-        for (auto &x : a)
-            fin >> x;
-        ll ans = mex(a);
+        vector<int> arr(n), brr(n);
         for (int i = 0; i < n; i++)
-        {
+            fin >> arr[i];
 
-            for (int j = i; j < n; j++)
-            {
-                vector<ll> b = a;
-                vector<ll> xxx;
-                for (int k = i; k <= j; k++)
-                    xxx.push_back(b[k]);
-                ll mxFromItoJ = mex(xxx);
-                for (int k = i; k <= j; k++)
-                    b[k] = mxFromItoJ;
+        for (int i = 0; i < n; i++)
+            fin >> brr[i];
 
-                ans = max(ans, mex(b));
-            }
-        }
-
-        fout << ans << dl;
+        fout << bst(arr, brr, 0, 0, 0) << dl;
     }
 };
-long long get_random(long long l, long long r)
+int seed = chrono::steady_clock::now().time_since_epoch().count();
+mt19937 mt_rand(seed);
+ll get_random(ll l, ll r)
 {
-
-    return l + rand() % (r - l + 1);
+    return uniform_int_distribution<ll>(l, r)(mt_rand);
 }
 class GEN : public Generator
 {
 public:
     void generate(std::ofstream &fout)
     {
-        ll n = get_random(1, 10);
+        ll n = get_random(1, 4);
         fout << n << dl;
-        for (ll i = 0; i < n; i++)
-        {
-
-            fout << get_random(0, n) << " ";
-        }
-
+        for (int i = 0; i < n; i++)
+            fout << get_random(-1, 1) << " ";
+        fout << dl;
+        for (int i = 0; i < n; i++)
+            fout << get_random(-1, 1) << " ";
         fout << dl;
     }
 };
@@ -82,86 +65,72 @@ public:
     {
         ll n;
         fin >> n;
-        vector<ll> a(n);
-        for (ll &x : a)
-            fin >> x;
+        vector<vector<ll>> a(2, vector<ll>(n));
 
-        if (mex(a) == n)
+        for (int i = 0; i < 2; i++)
         {
-            fout << n << dl;
-            return;
-        }
-        if (mex(a) == 0)
-        {
-            bool did = false;
-            vector<bool> vis(n + 1);
-            for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
             {
-                if (vis[a[i]])
-                {
-                    a[i] = 0;
-                    did = true;
-                    break;
-                }
-                vis[a[i]] = true;
+                fin >> a[i][j];
             }
-            if (did)
-                fout << mex(a) << dl;
+        }
+
+        multiset<pair<ll, ll>> alls;
+        for (int i = 0; i < n; i++)
+        {
+            alls.insert({a[0][i], a[1][i]});
+        }
+        multiset<pair<ll, ll>> notEquals;
+        for (int i = 0; i < n; i++)
+        {
+            if (a[0][i] != a[1][i])
+                notEquals.insert({a[0][i], a[1][i]}), alls.erase(alls.find({a[0][i], a[1][i]}));
+        }
+        ll scrF = 0, scrS = 0;
+        for (auto [f, s] : notEquals)
+        {
+            if (f == 1)
+                scrF += f;
+            else if (s == 1)
+                scrS += s;
             else
             {
-                sort(all(a));
-                a[n - 1] = 0;
-                fout << mex(a) << dl;
+                if (f == -1)
+                    scrS += s;
+                else
+                    scrF += f;
             }
-            return;
         }
 
-        vector<ll> subarr(n + 1);
-        vector<ll> arr(n + 1);
-        set<int> inSubarr, inArr, outSubarr, outArr;
-        for (auto &x : a)
+        multiset<pair<ll, ll>> negsAnsZeros;
+        for (int i = 0; i < n; i++)
         {
-            inArr.insert(x);
-            arr[x]++;
+            if (a[0][i] == a[1][i] and (a[0][i] == -1 or a[0][i] == 0))
+                negsAnsZeros.insert({a[0][i], a[1][i]}), alls.erase(alls.find({a[0][i], a[1][i]}));
         }
-        for (int i = 0; i <= n; i++)
+        for (auto [f, s] : negsAnsZeros)
         {
-            outSubarr.insert(i);
-            if (arr[i] == 0)
-                outArr.insert(i);
-        }
-        ll arrMex = *outArr.begin();
-        int ans = arrMex;
-        int i = 0, j = 0;
-        while (i < n)
-        {
-            while (j < n and *outSubarr.begin() != arrMex)
+            if (!f)
+                continue;
+
+            else
             {
-                inSubarr.insert(a[j]);
-                subarr[a[j]]++;
-                outSubarr.erase(a[j]);
-
-                arr[a[j]]--;
-                if (arr[a[j]] == 0)
-                    outArr.insert(a[j]), inArr.erase(a[j]);
-                j++;
+                if (scrF > scrS)
+                    scrF += f;
+                else
+                    scrS += s;
             }
-            outArr.erase(arrMex);
-            inArr.insert(arrMex);
-            ans = max(ans, *outArr.begin());
-            outArr.insert(arrMex);
-            inArr.erase(arrMex);
-
-            subarr[a[i]]--;
-            if (subarr[a[i]] == 0)
-                outSubarr.insert(a[i]), inSubarr.erase(a[i]);
-
-            arr[a[i]]++;
-            outArr.erase(a[i]), inArr.insert(a[i]);
-
-            i++;
         }
-        fout << ans << dl;
+
+        for (auto [f, s] : alls)
+        {
+
+            if (scrF > scrS)
+                scrS += s;
+            else
+                scrF += f;
+        }
+        fout << min(scrF, scrS) << dl;
     }
 };
 class LAZY : public Stressor
@@ -192,8 +161,8 @@ int main()
 
     LAZY abf;
 
-    // abf.run(100);
+    abf.run(100);
+    abf.cleanup();
 
-    // abf.cleanup();
     return 0;
 }

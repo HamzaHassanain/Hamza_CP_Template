@@ -64,4 +64,15 @@ struct LCA
     {
         return depth[u] + depth[v] - 2 * depth[lca(u, v)];
     }
+    int kth_ancestor(int u, int k)
+    {
+        for (int i = 0; i < LOG; i++)
+        {
+            if (k & (1 << i))
+            {
+                u = up[u][i];
+            }
+        }
+        return u;
+    }
 };

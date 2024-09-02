@@ -1,42 +1,33 @@
-#include <bits/stdc++.h>
-using namespace std;
-const string dl = "\n";
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double ld;
-#define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
 
-#define TEST_CASES
-
-void CP()
+struct SparseTable
 {
-    int n, m;
-    cin >> n >> m;
-    vector<vector<int>> ab(2, vector<int>(n));
-    for (int i = 0; i < n; i++)
-        cin >> ab[0][i];
-    for (int i = 0; i < n; i++)
-        cin >> ab[1][i];
-}
-
-int main()
-{
-#ifndef ONLINE_JUDGE
-    freopen("in.txt", "r", stdin);
-    freopen("out.txt", "w", stdout);
-#endif
-
-    ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    int tc = 1;
-
-#ifdef TEST_CASES
-    cin >> tc;
-#endif
-
-    for (int t = 1; t <= tc; t++)
+    vector<vector<ll>> st;
+    vector<ll> log;
+    ll merge(ll a, ll b)
     {
-        CP();
+        return min(a, b);
     }
-    return 0;
-}
+    SparseTable(vector<ll> &a)
+    {
+        int n = a.size();
+        log.resize(n + 1);
+        log[1] = 0;
+        for (int i = 2; i <= n; i++)
+            log[i] = log[i / 2] + 1;
+        st.assign(n, vector<ll>(log[n] + 1));
+        for (int i = 0; i < n; i++)
+            st[i][0] = a[i];
+        for (int j = 1; (1 << j) <= n; j++)
+        {
+            for (int i = 0; i + (1 << j) <= n; i++)
+            {
+                st[i][j] = merge(st[i][j - 1], st[i + (1 << (j - 1))][j - 1]);
+            }
+        }
+    }
+    ll query(int l, int r)
+    {
+        int j = log[r - l + 1];
+        return merge(st[l][j], st[r - (1 << j) + 1][j]);
+    }
+};

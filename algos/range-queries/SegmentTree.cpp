@@ -40,7 +40,6 @@ struct SegmentTree
     }
     void update(int idx, int val)
     {
-        idx--;
         idx += sz(v);
         tree[idx] = val;
         for (idx >>= 1; idx > 0; idx >>= 1)
@@ -48,7 +47,6 @@ struct SegmentTree
     }
     long long query(int l, int r)
     {
-        // l--;
         r++;
         long long res = DEFAULT;
         for (l += sz(v), r += sz(v); l < r; l >>= 1, r >>= 1)

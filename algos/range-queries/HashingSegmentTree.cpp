@@ -2,7 +2,6 @@
 using namespace std;
 
 #define int long long
-#define ll long long
 const int N = 1e5 + 5, mod1 = 1e9 + 7, mod2 = 2e9 + 11;
 ll base1 = 31, base2 = 37, pw1[N + 1], pw2[N + 1], inv1[N + 1], inv2[N + 1];
 ll powmod(ll a, ll b, ll m)
