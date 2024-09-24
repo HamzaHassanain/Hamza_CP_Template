@@ -40,3 +40,6 @@ struct FenwickTree
     // set value at pos idx to x
     void set(int idx, int x) { add(idx, x - sum(idx, idx)); }
 };
+
+
+

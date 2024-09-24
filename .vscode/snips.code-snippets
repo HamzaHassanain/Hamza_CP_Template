@@ -1201,7 +1201,7 @@
       "    return in;",
       "}",
       "",
-      "void zolve()",
+      "void solve()",
       "{",
       "    $1",
       "}",
@@ -1217,7 +1217,7 @@
       "",
       "    for (int t = 1; t <= tc; t++)",
       "    {",
-      "        zolve();",
+      "        solve();",
       "    }",
       "    return 0;",
       "}"
