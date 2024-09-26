@@ -1,6 +1,7 @@
 # Bit Manipulation
 
 - [Bit Manipulation](#bit-manipulation)
+
   - [C++ Bitset](#c-bitset)
   - [Bitwise Operators](#bitwise-operators)
   - [Bitwise AND](#bitwise-and)
@@ -18,7 +19,9 @@
   - [Count the number of bits to be flipped to convert A to B](#count-the-number-of-bits-to-be-flipped-to-convert-a-to-b)
   - [Generate all possible subsets of a set](#generate-all-possible-subsets-of-a-set)
   - [Find the one non-repeating element in an array where every other element repeats twice](#find-the-one-non-repeating-element-in-an-array-where-every-other-element-repeats-twice)
-  - [Find the two non-repeating elements in an array where every other element repeats twice](#find-the-two-non-repeating-elements-in-an-array-where-every-other-element-repeats-twice)
+
+- [Extra Materials](#extra-materials)
+- [Problems](#problems)
 
 ## C++ Bitset
 
@@ -378,48 +381,6 @@ cout << result << endl; // 1
 
 ```
 
-## Find the two non-repeating elements in an array where every other element repeats twice
-
-General Idea:
-
-- XOR all the elements of the array
-- Find the rightmost set bit in the result
-- Divide the elements of the array into two groups based on the rightmost set bit
-- XOR the elements of each group to find the non-repeating elements
-
-```cpp
-
-vector<int> arr = {1, 2, 2, 3, 3, 4, 4, 5};
-int result = 0;
-for(int x : arr) {
-    result ^= x;
-}
-
-// int rightmost_set_bit = result & -result;
-int rightmost_set_bit  =0;
-
-int tmp = result;
-while(tmp) {
-    if(tmp & 1) {
-        break;
-    }
-    rightmost_set_bit++;
-    tmp >>= 1;
-}
-rightmost_set_bit = 1 << rightmost_set_bit;
-
-int a = 0, b = 0;
-
-for(int x : arr) {
-    if(x & rightmost_set_bit) {
-        a ^= x;
-    } else {
-        b ^= x;
-    }
-}
-
-```
-
 ## Extra Materials
 
 - [CodeNCode (English):](https://youtube.com/playlist?list=PL5DyztRVgtRUVORP3AXvX91uovcaZv0q9&si=UlAIS0vE_HgqrECM)
@@ -431,7 +392,6 @@ for(int x : arr) {
 - [Add Binary](https://leetcode.com/problems/add-binary/description/?envType=problem-list-v2&envId=bit-manipulation&difficulty=EASY)
 - [Single Number](https://leetcode.com/problems/single-number/description/?envType=problem-list-v2&envId=bit-manipulation&difficulty=EASY)
 - [Power of Two](https://leetcode.com/problems/power-of-two/description/?envType=problem-list-v2&envId=bit-manipulation&difficulty=EASY)
-- [Find the XOR of Numbers Which Appear Twice]()
 - [Sum in Binary Tree](https://codeforces.com/problemset/problem/1843/C)
 - [Min Or Sum](https://codeforces.com/contest/1635/problem/A)
 - [We Need the Zero](https://codeforces.com/contest/1805/problem/A)
@@ -440,4 +400,3 @@ for(int x : arr) {
 - [AND Reconstruction](https://codeforces.com/contest/1991/problem/B)
 - [StORage room](https://codeforces.com/contest/1903/problem/B)
 - [Friendly Arrays](https://codeforces.com/contest/1870/problem/B)
-- [Make Almost Equal With Mod](https://codeforces.com/contest/1909/problem/B)
