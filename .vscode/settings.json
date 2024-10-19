@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "*.ejs": "html",
+    "*.py": "python",
     "iostream": "cpp",
     "any": "cpp",
     "array": "cpp",
@@ -91,7 +92,8 @@
     "expected": "cpp",
     "spanstream": "cpp",
     "stacktrace": "cpp",
-    "format": "cpp"
+    "format": "cpp",
+    "stdfloat": "cpp"
   },
   "cmake.configureOnOpen": false,
   "[python]": {
@@ -116,7 +118,6 @@
   ],
   "cSpell.words": ["buitiful", "dcomp"],
   "code-runner.executorMap": {
-    
     "javascript": "node",
     "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
     "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",

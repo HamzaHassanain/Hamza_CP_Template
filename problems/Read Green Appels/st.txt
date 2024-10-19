@@ -1,0 +1,21 @@
+
+Hamza needs R red balls and B blue balls.
+
+We have X red balls of weights r[1],r[2],.....r[X], Y blue balls of weights b[1],b[2],............,b[Y], and Z white balls of weights c[1],c[2],....,c[Z].
+
+Before giving a white ball to Hamza, we can paint it red or blue, and it will count as a red or blue, respectively. From the balls we have, we will choose the balls to give to Hamza while making the sum of the weights of the given balls as large as possible. Find the maximum possible sum of weights that can be achieved when optimally coloring zero or more white balls.
+
+
+Input
+Input will be given in 4 lines.
+
+Line 1: contains five integers R,B,X,Y,Z (1≤R≤X≤10^5) and (1≤B≤Y≤10^5) and (1≤Z≤10^5).
+
+Line 2: contains X integers r[1],r[2],.....r[X] (1≤r[i]≤10^9)
+
+Line 3: contains Y integers b[1],b[2],.....b[Y] (1≤b[i]≤10^9)
+
+Line 4: contains Z integers c[1],c[2],.....c[Z] (1≤c[i]≤10^9)
+
+Output
+Only a single integer, the maximum possible sum achievable.

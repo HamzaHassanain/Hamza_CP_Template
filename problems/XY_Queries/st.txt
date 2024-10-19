@@ -1,0 +1,54 @@
+XY Queries (Easy Version)
+time limit per test1 second
+memory limit per test256 megabytes
+Note: There is a significant difference between the easy version and the hard version so read them both carefully.
+
+Given array a
+ of length n
+ and m
+ queries where each query contains two integers x,y
+ and for each query you have to check if there exists any i,j
+ (1≤i,j≤n)
+ (Note: i and j can be equal) in the array a
+ such that a[i]
+ and
+ a[j]
+ satisfy the following conditions:
+
+a[i]
+ + a[j]
+ =
+ x
+.
+a[i]
+ - a[j]
+ =
+ y
+.
+Input
+The First line contains the integer n
+ (1≤n≤103)
+ the size of the array a
+.
+
+The Second line contains n
+ integers a1......an
+ (−109≤ai≤109)
+ where ai
+ is the i−th
+ element in the array
+
+The Third lien contains the integer m
+ (1≤m≤102)
+ the number of queries.
+
+Next m
+ lines contains two integers x,y
+ (−2×109≤x,y≤2×109)
+
+Output
+For each query print Yes
+ if there exists any i,j
+ satisfies the above conditions otherwise print No
+
+Note: The answer is case sensitive

@@ -3,8 +3,10 @@ struct Suffix_Array
 {
 
     vector<int> sa, lcp;
-    Suffix_Array(string s)
+    string s;
+    Suffix_Array(string _s)
     {
+        s = _s;
         s += " ";
         int n = s.size();
         sa.resize(n);
@@ -103,3 +105,40 @@ auto string_compare = [&](string &s, int i, int len, string &t)
     }
     return 0;
 };
+
+string kth_smallest_substring(int k)
+{
+    int n = s.size() - 1;
+    vector<int> cnt(size() + 1, 1);
+
+    auto lcp = this->lcp;
+    auto sa = this->sa;
+
+    sa.insert(sa.begin(), n);
+    lcp.insert(lcp.begin(), 0);
+
+    for (int i = 1; i <= n; i++)
+    {
+        int cur = cnt[i], len = n - sa[i], mn = 1e9;
+        int o = i;
+        do
+        {
+            k--;
+            if (k == 0)
+            {
+                return s.substr(sa[o], cnt[o]);
+            }
+            cnt[o]++;
+            mn = min(mn, lcp[o]);
+            if (mn < cnt[o + 1])
+            {
+                break;
+            }
+            o++;
+        } while (o <= n);
+        if (cnt[i] <= len)
+            i--;
+    }
+
+    return "No such line.";
+}
