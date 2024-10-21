@@ -11,14 +11,6 @@ using namespace std;
 #define all(x) x.begin(), x.end()
 #define sz(x) (int)x.size()
 
-ll bst(vector<int> &arr, vector<int> &brr, ll i, int a, int b)
-{
-    if (i == arr.size())
-        return min(a, b);
-
-    return max(bst(arr, brr, i + 1, a + arr[i], b), bst(arr, brr, i + 1, a, b + brr[i]));
-}
-
 class Sure : public Solution
 {
 public:
@@ -26,14 +18,25 @@ public:
     {
         ll n;
         fin >> n;
-        vector<int> arr(n), brr(n);
+        vector<ll> arr(n);
         for (int i = 0; i < n; i++)
             fin >> arr[i];
 
-        for (int i = 0; i < n; i++)
-            fin >> brr[i];
+        ll ans = 0;
 
-        fout << bst(arr, brr, 0, 0, 0) << dl;
+        for (ll i = 0; i < n; i++)
+        {
+            ll mn = arr[i];
+            ll mx = arr[i];
+            for (ll j = i; j < n; j++)
+            {
+                mn = min(mn, arr[j]);
+                mx = max(mx, arr[j]);
+                ans += mn * mx;
+            }
+        }
+
+        fout << ans << dl;
     }
 };
 int seed = chrono::steady_clock::now().time_since_epoch().count();
@@ -47,13 +50,20 @@ class GEN : public Generator
 public:
     void generate(std::ofstream &fout)
     {
-        ll n = get_random(1, 4);
+        ll n = get_random(1, 10);
         fout << n << dl;
+
+        set<ll> usd;
+
         for (int i = 0; i < n; i++)
-            fout << get_random(-1, 1) << " ";
-        fout << dl;
-        for (int i = 0; i < n; i++)
-            fout << get_random(-1, 1) << " ";
+        {
+            ll x = get_random(1, 10);
+            while (usd.count(x))
+                x = get_random(1, 10);
+            usd.insert(x);
+            fout << x << ' ';
+        }
+
         fout << dl;
     }
 };
@@ -65,72 +75,62 @@ public:
     {
         ll n;
         fin >> n;
-        vector<vector<ll>> a(2, vector<ll>(n));
-
-        for (int i = 0; i < 2; i++)
+        vector<ll> a(n), mn(n), mx(n), next_min(n, n), next_max(n, n);
+        for (int i = 0; i < n; ++i)
+            fin >> a[i];
+        stack<ll> s;
+        for (int i = 0; i < n; ++i)
         {
-            for (int j = 0; j < n; j++)
+            while (!s.empty() && a[s.top()] > a[i])
+                next_min[s.top()] = i, s.pop();
+            s.push(i);
+        }
+        while (!s.empty())
+            s.pop();
+        for (int i = 0; i < n; ++i)
+        {
+            while (!s.empty() && a[s.top()] < a[i])
+                next_max[s.top()] = i, s.pop();
+            s.push(i);
+        }
+        ll res = 0;
+        vector<ll> dp(n + 1);
+        for (int i = n - 1; i >= 0; --i)
+        {
+            ll maxi = 0, mini = 1e9, sub = 0, sum = 0, idx = 0;
+            for (int j = i; j < n; ++j)
             {
-                fin >> a[i][j];
+                maxi = max(maxi, a[j]);
+                mx[j] = maxi;
+                mini = min(mini, a[j]);
+                mn[j] = mini;
             }
-        }
-
-        multiset<pair<ll, ll>> alls;
-        for (int i = 0; i < n; i++)
-        {
-            alls.insert({a[0][i], a[1][i]});
-        }
-        multiset<pair<ll, ll>> notEquals;
-        for (int i = 0; i < n; i++)
-        {
-            if (a[0][i] != a[1][i])
-                notEquals.insert({a[0][i], a[1][i]}), alls.erase(alls.find({a[0][i], a[1][i]}));
-        }
-        ll scrF = 0, scrS = 0;
-        for (auto [f, s] : notEquals)
-        {
-            if (f == 1)
-                scrF += f;
-            else if (s == 1)
-                scrS += s;
+            idx = max(next_min[i], next_max[i]);
+            sum = dp[idx];
+            if (next_min[i] >= next_max[i])
+            {
+                for (int j = i; j < idx; ++j)
+                {
+                    sub += mx[j];
+                }
+            }
             else
             {
-                if (f == -1)
-                    scrS += s;
-                else
-                    scrF += f;
+                for (int j = i; j < idx; ++j)
+                {
+                    sub += mn[j];
+                }
             }
+            sum += (sub * a[i]);
+            dp[i] = sum;
+            res += sum;
         }
-
-        multiset<pair<ll, ll>> negsAnsZeros;
-        for (int i = 0; i < n; i++)
-        {
-            if (a[0][i] == a[1][i] and (a[0][i] == -1 or a[0][i] == 0))
-                negsAnsZeros.insert({a[0][i], a[1][i]}), alls.erase(alls.find({a[0][i], a[1][i]}));
-        }
-        for (auto [f, s] : negsAnsZeros)
-        {
-            if (!f)
-                continue;
-
-            else
-            {
-                if (scrF > scrS)
-                    scrF += f;
-                else
-                    scrS += s;
-            }
-        }
-
-        for (auto [f, s] : alls)
-        {
-
-            if (scrF > scrS)
-                scrS += s;
-            else
-                scrF += f;
-        }
-        fout << min(scrF, scrS) << dl;
+        // for (int i = 0; i < n; ++i)
+        // {
+        //     cout << dp[i] << ' ';
+        // }
+        // cout << '\n';
+        fout << res << '\n';
     }
 };
 class LAZY : public Stressor
@@ -156,6 +156,7 @@ public:
         sure.solve(fin, fout);
     }
 };
+
 int main()
 {
 
