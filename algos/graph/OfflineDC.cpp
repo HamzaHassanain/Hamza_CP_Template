@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define ll long long
 struct DSURollback
 {
     vector<int> p, sz;
@@ -177,56 +174,3 @@ struct DynamicConnectivity
             d.rollback();
     }
 };
-
-signed main()
-{
-
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    int n, m, q;
-    cin >> n >> m >> q;
-    DynamicConnectivity dc(n, q + m);
-    vector<int> queries;
-
-    for (int i = 1; i <= m; i++)
-    {
-        int a, b;
-        cin >> a >> b;
-        if (b > a)
-            swap(a, b);
-        dc.insert_add_query(a, b, i);
-    }
-    queries.push_back(m);
-    for (int i = m + 1; i <= q + m; i++)
-    {
-        int op;
-        cin >> op;
-        int a, b;
-        cin >> a >> b;
-        if (b > a)
-            swap(a, b);
-        if (op == 1)
-        {
-            dc.insert_add_query(a, b, i);
-        }
-        else
-        {
-            dc.insert_remove_query(a, b, i);
-        }
-
-        queries.push_back(i);
-    }
-    dc.finalize_cuts();
-    dc.finalize_adds();
-
-    dc.work();
-    for (auto it : queries)
-        cout << dc.ans[it] << ' ';
-    return 0;
-}

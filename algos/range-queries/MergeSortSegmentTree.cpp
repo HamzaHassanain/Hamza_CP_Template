@@ -1,9 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-#define endl '\n'
-const int MOD = 1e9 + 7;
-
 struct MergeSortSegmentTree
 {
 private:

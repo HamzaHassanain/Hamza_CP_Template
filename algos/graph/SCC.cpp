@@ -1,19 +1,10 @@
-#include <bits/stdc++.h>
-using namespace std;
-const string dl = "\n";
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double ld;
-#define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
-#define MAX 100
-#define vi vector<int>
-#define vvi vector<vi>
-
-#define sz(x) (int)x.size()
 template <int DIRECTED_GRAPH = 1>
 struct SCC
 {
+#define sz(x) (int)x.size()
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+
     vector<vector<int>> adjList, comps, dagList;
     vector<int> inStack, lowLink, dfn, comp, inDeg, outDeg;
     stack<int> stk;

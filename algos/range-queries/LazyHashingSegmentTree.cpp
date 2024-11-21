@@ -1,7 +1,4 @@
-#include <bits/stdc++.h>
-using namespace std;
 
-const string dl = "\n";
 #define ll long long
 
 #define int long long
