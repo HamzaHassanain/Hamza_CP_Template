@@ -1,4 +1,4 @@
-#Introduction to Graphs
+# Introduction to Graphs
 
 - [What is a Graph?](#what-is-a-graph)
 - [Graph Representation](#graph-representation)
@@ -60,14 +60,13 @@ for (int i = 0; i < E; i++)
 
 ```
 
-    ## #Adjacency List
+### Adjacency List
 
-        An adjacency list is a collection of linked lists.Each list represents a vertex in the graph.The list contains the neighbors of the vertex.
+An adjacency list is a collection of linked lists.Each list represents a vertex in the graph.The list contains the neighbors of the vertex.
 
 ```cpp
 
-    int V,
-    E;
+int V, E;
 
 cin >> V >> E;
 
@@ -83,21 +82,18 @@ for (int i = 0; i < E; i++)
 
 ```
 
-    ##Graph Traversal
+## Graph Traversal
 
-        Graph traversal is the process of visiting all the vertices in a graph.There are two common graph traversal algorithms : Depth First
-                                                                                                                                 Search(DFS) and
-    Breadth First Search(BFS).
+Graph traversal is the process of visiting all the vertices in a graph.There are two common graph traversal algorithms : Depth First Search(DFS) and Breadth First Search(BFS).
 
-    ## #Depth First Search(DFS)
+### Depth First Search(DFS)
 
 Depth First Search(DFS)
 is a graph traversal algorithm that explores as far as possible along each branch before backtracking.
 
 ```cpp
 
-    void
-    dfs(int u, vector<vector<int>> &adj, vector<bool> &visited)
+void dfs(int u, vector<vector<int>> &adj, vector<bool> &visited)
 {
     visited[u] = true;
     cout << u << " ";
@@ -134,16 +130,14 @@ int main()
 
 ```
 
-    ## #Breadth First
-    Search(BFS)
+### Breadth First Search(BFS)
 
 Breadth First Search(BFS)
 is a graph traversal algorithm that explores the neighbor vertices before moving to the next level of neighbors.
 
 ```cpp
 
-    void
-    bfs(int u, vector<vector<int>> &adj, vector<bool> &visited)
+void bfs(int u, vector<vector<int>> &adj, vector<bool> &visited)
 {
     queue<int> q;
     q.push(u);
@@ -185,19 +179,18 @@ int main()
 
     bfs(0, adj, visited);
 }
-
 ```
 
-    ##Unweighted Shortest Path
+## Unweighted Shortest Path
 
-        Unweighted Shortest Path is the shortest path between two vertices in a graph with unweighted edges.Breadth First
-        Search(BFS)
+Unweighted Shortest Path is the shortest path between two vertices in a graph with unweighted edges.Breadth First
+Search(BFS)
+
 can be used to find the shortest path in an unweighted graph.
 
 ```cpp
 
-    int
-    bfs(int u, int v, vector<vector<int>> &adj)
+int  bfs(int u, int v, vector<vector<int>> &adj)
 {
     queue<pair<int, int>> q;
     q.push({u, 0});
@@ -246,13 +239,12 @@ int main()
 
     cout << bfs(u, v, adj);
 }
-
 ```
 
-    ##Topological Sort
+## Topological Sort
 
-        Topological Sort is a linear ordering of the vertices of a directed acyclic
-        graph(DAG) such that for every directed edge `u -> v`, vertex `u` comes before vertex `v` in the ordering. Topological Sort can be done using Depth First Search (DFS).
+Topological Sort is a linear ordering of the vertices of a directed acyclic
+graph(DAG) such that for every directed edge `u -> v`, vertex `u` comes before vertex `v` in the ordering. Topological Sort can be done using Depth First Search (DFS).
 
 ```cpp
 
